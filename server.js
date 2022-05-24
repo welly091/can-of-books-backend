@@ -17,16 +17,14 @@ db.once('open', function(){
   console.log('Mongoose is connect');
 })
 
-
 const app = express();
 app.use(cors());
+app.use(express.json())
 
 const PORT = process.env.PORT || 3002;
 
 app.get('/test', (request, response) => {
-
   response.send('test request received')
-
 })
 
 app.get('/books', getBooks)
@@ -45,6 +43,29 @@ async function getBooks(req, res, next){
     next(error);
   }
 }
+
+app.post('/books', async(req, res) =>{
+  try {
+      const {title, description} = req.body
+      await Book.create({
+      title: title,
+      description: description
+    })
+    res.send(req.body)
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error!!!');
+  }
+})
+
+app.delete('/books/:id', async(req,res) =>{
+  try {
+    await Book.findByIdAndDelete(req.params.id)
+    res.send('DELETE THE BOOK')
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 app.use((error, req ,res, next) =>{
   res.status(500).send(error.message);
