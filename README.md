@@ -43,3 +43,13 @@ If there are any concerns, send your partner a message via Slack to see if there
 We will call for a discussion to determine how we can contribute to the project more evenly.
 - How will you approach each other and the challenge of building an application knowing that it is impossible for two people to be at the exact same place in understanding and skill level?
 We will do our best to understand that we are at different points of understanding, and we will do our best to help each other understand subjects that we would like to brush up on.
+
+Name of feature: can-of-books-backend
+
+Estimate of time needed to complete: 2
+
+Start time: 2:30
+
+Finish time: 4:00
+
+Actual time needed to complete: 2:30
