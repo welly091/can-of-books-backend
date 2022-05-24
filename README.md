@@ -53,3 +53,15 @@ Start time: 2:30
 Finish time: 4:00
 
 Actual time needed to complete: 2:30
+
+Name of feature: Post and Delete
+
+- Started by Dylan
+
+Estimate of time needed to complete: 2
+
+Start time: 1:30
+
+Finish time: 3:00
+
+Actual time needed to complete: 1:30
