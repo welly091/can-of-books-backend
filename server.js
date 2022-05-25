@@ -29,6 +29,7 @@ app.get('/test', (request, response) => {
 
 app.get('/books', getBooks);
 app.post('/books', postBooks);
+app.put('/books/:id', putBooks);
 app.delete('/books/:id', deleteBooks);
 
 async function getBooks(req, res, next) {
@@ -50,6 +51,18 @@ async function postBooks(req, res, next) {
   try {
     let addedBook = await Book.create(req.body);
     res.status(200).send(addedBook.data);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function putBooks(req, res, next) {
+  try {
+    let updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      overwrite: true,
+    });
+    res.status(200).send(updatedBook);
   } catch (error) {
     next(error);
   }
