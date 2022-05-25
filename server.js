@@ -6,7 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 //Import schema
-const Book = require('./models/Book.js')
+const Book = require('./models/Book.js');
 
 //Connect to mongoDB
 mongoose.connect(process.env.DB_URL);
@@ -29,12 +29,12 @@ app.get('/test', (request, response) => {
 
 app.get('/books', getBooks)
 
-async function getBooks(req, res, next){
-  let queryObject = {}
-  if(req.query.title){
+async function getBooks(req, res, next) {
+  let queryObject = {};
+  if (req.query.title) {
     queryObject = {
       title: req.query.title,
-    }
+    };
   }
   try {
     let results = await Book.find(queryObject);
