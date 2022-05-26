@@ -69,7 +69,6 @@ async function putBooks(req, res, next) {
 }
 
 async function deleteBooks(req, res, next) {
-  console.log(req.params.id);
   try {
     let deletedBook = await Book.findByIdAndDelete(req.params.id);
     res.status(200).send(deletedBook);
