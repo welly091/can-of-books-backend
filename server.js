@@ -13,21 +13,24 @@ mongoose.connect(process.env.DB_URL);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function(){
-  console.log('Mongoose is connect');
-})
+db.once('open', function () {
+  console.log('Mongoose is connected');
+});
 
 const app = express();
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
 const PORT = process.env.PORT || 3002;
 
 app.get('/test', (request, response) => {
-  response.send('test request received')
-})
+  response.send('test request received');
+});
 
-app.get('/books', getBooks)
+app.get('/books', getBooks);
+app.post('/books', postBooks);
+app.put('/books/:id', putBooks);
+app.delete('/books/:id', deleteBooks);
 
 async function getBooks(req, res, next) {
   let queryObject = {};
@@ -44,30 +47,37 @@ async function getBooks(req, res, next) {
   }
 }
 
-app.post('/books', async(req, res) =>{
+async function postBooks(req, res, next) {
   try {
-      const {title, description} = req.body
-      await Book.create({
-      title: title,
-      description: description
-    })
-    res.send(req.body)
+    let addedBook = await Book.create(req.body);
+    res.status(200).send(addedBook.data);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Server error!!!');
+    next(error);
   }
-})
+}
 
-app.delete('/books/:id', async(req,res) =>{
+async function putBooks(req, res, next) {
   try {
-    await Book.findByIdAndDelete(req.params.id)
-    res.send('DELETE THE BOOK')
+    let updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      overwrite: true,
+    });
+    res.status(200).send(updatedBook);
   } catch (error) {
-    console.log(error)
+    next(error);
   }
-})
+}
 
-app.use((error, req ,res, next) =>{
+async function deleteBooks(req, res, next) {
+  try {
+    let deletedBook = await Book.findByIdAndDelete(req.params.id);
+    res.status(200).send(deletedBook);
+  } catch (error) {
+    next(error);
+  }
+}
+
+app.use((error, req, res, next) => {
   res.status(500).send(error.message);
 });
 
